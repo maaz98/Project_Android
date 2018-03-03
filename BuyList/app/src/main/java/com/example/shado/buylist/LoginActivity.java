@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         //progress dialog
         progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading... Please Wait");
         //Email Text view
         mEmailView = (EditText) findViewById(R.id.email);
         //Password Text view
@@ -246,7 +247,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         return password.length() > 6;
     }
 
-//This method initiates login through email/password
+    //This method initiates login through email/password
     public void login() {
         String email = mEmailView.getText().toString().trim();
         String password = mPasswordView.getText().toString().trim();
@@ -257,12 +258,18 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         } else if (!userHashMap.get(email).getPassword().equals(password)){
             Toast.makeText(getApplicationContext(), "Incorrect Password!!!", Toast.LENGTH_SHORT).show();
         } else {
+
             saveLoggedInData(userHashMap.get(email).getName(), email);
+            CONSTANTS.isGmail= false;
             redirectAfterLogin();
         }
     }
 
     private void saveLoggedInData(String name, String email) {
+
+        CONSTANTS.NAME = name;
+        CONSTANTS.EMAIL = email;
+
         SharedPreferences.Editor editor = getSharedPreferences("BUYLIST", MODE_PRIVATE).edit();
         editor.putString("loggedUser", name);
         editor.putString("loggedEmail", email);
