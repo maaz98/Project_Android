@@ -125,6 +125,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             public void onClick(View view) {
               progressDialog.show();
                 signIn();
+                CONSTANTS.isGmail = true;
                 //  logIn With Google;
             }
         });
@@ -152,6 +153,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 }
             }
         });
+
+
     }
 
     //This is executed when the activity Starts.
@@ -247,7 +250,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         return password.length() > 6;
     }
 
-    //This method initiates login through email/password
+//This method initiates login through email/password
     public void login() {
         String email = mEmailView.getText().toString().trim();
         String password = mPasswordView.getText().toString().trim();
@@ -283,6 +286,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("keyTo","firstOpen");
         startActivity(intent);
+        finish();
     }
 
 

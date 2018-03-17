@@ -55,6 +55,7 @@ public class UserProfile extends AppCompatActivity {
     String ImageUrl;
     FirebaseAuth mAuth;
     CardView view;
+    CardView deleteAccountView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class UserProfile extends AppCompatActivity {
         changePassWord=(Button)findViewById(R.id.save_btn);
          imageView=(CircleImageView) findViewById(R.id.profile_image);
         view = (CardView) findViewById(R.id.card);
+        deleteAccountView = findViewById(R.id.deleteCard);
         NameText.setText(name);
         emailText.setText(email);
         try {
@@ -83,8 +85,10 @@ public class UserProfile extends AppCompatActivity {
             e.printStackTrace();
         }
        mAuth = FirebaseAuth.getInstance();
+
         if(CONSTANTS.isGmail){
             view.setVisibility(View.GONE);
+            deleteAccountView.setVisibility(View.GONE);
         }
 
         if (userMap == null) {
@@ -122,6 +126,22 @@ public class UserProfile extends AppCompatActivity {
          }
      });
 
+     deleteAccountView.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+             deleteAccount();
+         }
+     });
+    }
+
+    private void deleteAccount() {
+        HashMap<String, User> map = readUsersMap(this);
+        Log.e("MAP",map.toString());
+        map.remove(email);
+        storeUserMap(map,this);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -162,7 +182,7 @@ public class UserProfile extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
-    //method to read user information from phone
+//method to read user information from phone
     public static HashMap<String, User> readUsersMap(Context mContext) {
         SharedPreferences preferences = mContext.getSharedPreferences("BUYLIST", MODE_PRIVATE);
 
@@ -183,7 +203,7 @@ public class UserProfile extends AppCompatActivity {
             return null;
         }
 }
-     //method to write/update user information to phone
+//method to write/update user information to phone
 
     public static void storeUserMap(HashMap<String, User> userHashMap, Context mContext) {
         SharedPreferences preferences = mContext.getSharedPreferences("BUYLIST", MODE_PRIVATE);
@@ -244,4 +264,6 @@ public class UserProfile extends AppCompatActivity {
         }
         return null;
     }
+
+
 }

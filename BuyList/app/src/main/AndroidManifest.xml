@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.READ_PROFILE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,11 +14,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".MainActivity"
-                  android:theme="@style/Theme.Design.NoActionBar">
-
-        </activity>
         <activity
             android:name=".LoginActivity"
             android:label="BuyList">
@@ -27,12 +21,20 @@
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+        </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity">
         </activity>
-        <activity android:name=".UserProfile"
-                  android:label="Account">
+        <activity
+            android:name=".UserProfile"
+            android:label="Account">
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="My Lists"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".ListDetail">
         </activity>
     </application>
 
