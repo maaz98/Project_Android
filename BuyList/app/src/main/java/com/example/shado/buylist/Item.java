@@ -1,6 +1,10 @@
 package com.example.shado.buylist;
 
-public class Item {
+import android.support.annotation.NonNull;
+
+import static com.example.shado.buylist.ListDetail.mode;
+
+public class Item implements Comparable {
     String name;
     int quantity;
     int id;
@@ -95,5 +99,11 @@ public class Item {
                 ", price=" + price +
                 ", typeId=" + typeId +
                 '}';
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+      if(mode == 0)  return this.name.compareTo(((Item)o).name);
+      else return this.getId()-((Item)o).getId();
     }
 }

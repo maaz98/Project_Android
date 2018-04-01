@@ -2,15 +2,16 @@ package com.example.shado.buylist;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class List {
     String name;
     int totalItems;
     int checkedItems;
     long id;
-    ArrayList<Item> itemsList;
+    HashMap<String,Item> itemsList;
 
-    public List(String name, int totalItems, int checkedItems, long id, ArrayList<Item> itemsList) {
+    public List(String name, int totalItems, int checkedItems, long id, HashMap<String,Item> itemsList) {
         this.name = name;
         this.totalItems = totalItems;
         this.checkedItems = checkedItems;
@@ -23,7 +24,7 @@ public class List {
         this.totalItems = 0;
         this.checkedItems = 0;
         this.id = id;
-        this.itemsList = new ArrayList<>();
+        this.itemsList = new HashMap<>();
     }
 
     public String getName() {
@@ -35,7 +36,7 @@ public class List {
     }
 
     public int getTotalItems() {
-        return totalItems;
+        return itemsList.size();
     }
 
     public void setTotalItems(int totalItems) {
@@ -44,8 +45,9 @@ public class List {
 
     public int getCheckedItems() {
         int n=0;
-        for( int i=0;i< itemsList.size();i++){
-            if(itemsList.get(i).isChecked){
+        ArrayList<Item> list = new ArrayList<Item>(itemsList.values());
+        for( int i=0;i< list.size();i++){
+            if(list.get(i).isChecked){
                 n++;
             }
         }
@@ -64,11 +66,11 @@ public class List {
         this.id = id;
     }
 
-    public ArrayList<Item> getItemsList() {
+    public HashMap<String,Item> getItemsList() {
         return itemsList;
     }
 
-    public void setItemsList(ArrayList<Item> itemsList) {
+    public void setItemsList(HashMap<String,Item> itemsList) {
         this.itemsList = itemsList;
     }
 

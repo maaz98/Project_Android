@@ -81,14 +81,14 @@ public class DummyListAdapter extends RecyclerView.Adapter<DummyListAdapter.MyVi
        holder.add.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               increaseQuantity(position);
+               increaseQuantity(position,context);
            }
        });
 
        holder.remove.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               decreaseQuantity(position);
+               decreaseQuantity(position,context);
            }
        });
 

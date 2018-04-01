@@ -20,7 +20,6 @@ import java.util.ArrayList;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
-
     private Context context;
     private ArrayList<List> mItems;
 

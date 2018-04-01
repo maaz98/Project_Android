@@ -23,9 +23,9 @@ import java.util.HashMap;
 public class RegisterActivity extends AppCompatActivity implements Serializable {
 
  /*
-  *   This Activity registers new users in the app.
-  *   Upon Successful registration, users are directed to LoginActivity to login again.
-  *
+*   This Activity registers new users in the app.
+*   Upon Successful registration, users are directed to LoginActivity to login again.
+*
  */
 
     // UI references.

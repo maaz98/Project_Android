@@ -68,9 +68,10 @@ public class DetailedListAdapter extends RecyclerView.Adapter<DetailedListAdapte
     holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            toggleChecked(position,b);
+            toggleChecked(mItems.get(position).getName(),b,mItems.get(position).getId());
         }
     });
+
     }
 
     @Override
