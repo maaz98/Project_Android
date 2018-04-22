@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 *   Activity which enables users to login in the app through Username & Password Or through Gmail.
 *   Upon Successful login, users are directed to MainActivity.
 *
- */
+*/
 
     // UI references.
     private EditText mEmailView;

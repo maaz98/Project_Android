@@ -36,6 +36,17 @@
         </activity>
         <activity android:name=".ListDetail">
         </activity>
+
+        <receiver
+            android:name="com.example.shado.buylist.MyReceiver"
+            android:enabled="true"
+            android:exported="false">
+        </receiver>
+
+        <service
+            android:name="com.example.shado.buylist.MyNewIntentService"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>

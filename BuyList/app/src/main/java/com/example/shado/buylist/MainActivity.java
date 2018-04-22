@@ -25,6 +25,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.wunderlist.slidinglayer.SlidingLayer;
 
 import java.util.ArrayList;
@@ -108,7 +113,21 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child(getString(R.string.key));
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String a = (String)dataSnapshot.getValue();
+                if(a.equals(getString(R.string.buylist))){
+                    finish();
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public static void saveList(ArrayList<List> mainList) {

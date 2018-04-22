@@ -10,6 +10,7 @@ public class List {
     int checkedItems;
     long id;
     HashMap<String,Item> itemsList;
+    int notificationId;
 
     public List(String name, int totalItems, int checkedItems, long id, HashMap<String,Item> itemsList) {
         this.name = name;
@@ -83,5 +84,13 @@ public class List {
                 ", id=" + id +
                 ", itemsList=" + itemsList.toString() +
                 '}';
+    }
+
+    public int getNotificationId() {
+        return notificationId;
+    }
+
+    public void setNotificationId(int notificationId) {
+        this.notificationId = notificationId;
     }
 }

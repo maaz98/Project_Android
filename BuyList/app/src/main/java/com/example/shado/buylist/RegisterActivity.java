@@ -26,7 +26,7 @@ public class RegisterActivity extends AppCompatActivity implements Serializable 
 *   This Activity registers new users in the app.
 *   Upon Successful registration, users are directed to LoginActivity to login again.
 *
- */
+*/
 
     // UI references.
     private EditText mEmailView;

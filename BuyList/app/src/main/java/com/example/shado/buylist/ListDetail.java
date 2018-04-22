@@ -1,7 +1,11 @@
 package com.example.shado.buylist;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -12,14 +16,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.wunderlist.slidinglayer.SlidingLayer;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 
 import static com.example.shado.buylist.MainActivity.mainList;
@@ -28,8 +37,8 @@ import static com.example.shado.buylist.MainActivity.saveList;
 public class ListDetail extends AppCompatActivity {
 
     /*
-    *  This  Activity displays the list items as well as enables users to add more items to their list.
-    *  this activity also handles the functionality of sorting and deleting.
+     *  This  Activity displays the list items as well as enables users to add more items to their list.
+     *  this activity also handles the functionality of sorting and deleting.
      */
 
     //defining the widgets used.
@@ -42,7 +51,8 @@ public class ListDetail extends AppCompatActivity {
     public static DummyListAdapter dummy_adapter;
     public static HashMap<String,Item> dummyItemHashMap;
     public static ArrayList<Item> dummyItemArrayList;
-
+    public static SlidingLayer slidingLayer2;
+    public static Date date;
     public static int mode = 0;
 
     public static RecyclerView mainlist;
@@ -51,6 +61,13 @@ public class ListDetail extends AppCompatActivity {
     public static ArrayList<Item>  mainItemArrayList;
 
     public static int position;
+
+    static EditText quantity_et;
+    static EditText price_et;
+    static ImageView close_btn;
+    static TextView item_name_tv;
+
+    static int pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +87,14 @@ public class ListDetail extends AppCompatActivity {
         slidingLayer.setChangeStateOnTap(false);
         slidingLayer.setSlidingEnabled(false);
 
+        slidingLayer2 = (SlidingLayer) findViewById(R.id.slidingLayer2);
+        slidingLayer2.setChangeStateOnTap(false);
+        slidingLayer2.setSlidingEnabled(false);
+        quantity_et = (EditText)findViewById(R.id.qty);
+        price_et = (EditText)findViewById(R.id.price);
+        close_btn = (ImageView) findViewById(R.id.cls);
+        item_name_tv = (TextView) findViewById(R.id.name);
+
         Log.e("data",myList.toString());
 
        mainItemHashMap = mainList.get(position).getItemsList();
@@ -77,7 +102,6 @@ public class ListDetail extends AppCompatActivity {
 
       // populateDummyList(mainItemArrayList);
         //Recycler view which displays items that are currently in the list.
-
        mainlist = (RecyclerView) findViewById(R.id.main_list);
        main_adapter = new DetailedListAdapter(this,mainItemArrayList);
        mainlist.setAdapter(main_adapter);
@@ -88,9 +112,7 @@ public class ListDetail extends AppCompatActivity {
                 DividerItemDecoration.VERTICAL
         );
         mainlist.addItemDecoration(mDividerItemDecoration2);
-
         //when this button is clicked, drawer pops out which would contain some suggested items.
-
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +173,22 @@ public class ListDetail extends AppCompatActivity {
                 DividerItemDecoration.VERTICAL
         );
         dummylist.addItemDecoration(mDividerItemDecoration);
+
+        close_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainItemArrayList.get(pos).setQuantity(Integer.parseInt(quantity_et.getText().toString()));
+                mainItemArrayList.get(pos).setPrice(Double.parseDouble(price_et.getText().toString()));
+
+                mainItemHashMap.get(mainItemArrayList.get(pos).getName()).setQuantity(Integer.parseInt(quantity_et.getText().toString()));
+                mainItemHashMap.get(mainItemArrayList.get(pos).getName()).setPrice(Double.parseDouble(price_et.getText().toString()));
+                mainList.get(position).setItemsList(mainItemHashMap);
+                saveList(mainList);
+                main_adapter.notifyDataSetChanged();
+                slidingLayer2.closeLayer(true);
+
+            }
+        });
       //  prepareMainList();
     }
 //This method populate the list of suggested items
@@ -315,6 +353,7 @@ Menu m;
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -352,7 +391,42 @@ Menu m;
                 mode = 0;
             }
         }*/
+        else if (id == R.id.action_bell){
+          //  if(mainList.get(position).getNotificationId()!=0){
+                item.setIcon(R.drawable.bell);
 
+                DatePickerDialog dialog = new DatePickerDialog(this);
+
+                dialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        Calendar calendar= Calendar.getInstance();
+                        calendar.set(year,month,dayOfMonth,0,0,0);
+                        date = calendar.getTime();
+                        Date d = Calendar.getInstance().getTime();
+                        TimePickerDialog.OnTimeSetListener listener = new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                date.setHours(hourOfDay);
+                                date.setMinutes(minute);
+                                PingMe pm = new PingMe();
+                                int id =  pm.setNotification("Buy List App",mainList.get(position).getName()+" is due.",date,getApplicationContext());
+                                mainList.get(position).setNotificationId(id);
+                                Toast.makeText(ListDetail.this, "Reminder set for " +date.toLocaleString(), Toast.LENGTH_SHORT).show();
+                                saveList(mainList);
+                            }
+                        };
+                        TimePickerDialog dialog1 = new TimePickerDialog(ListDetail.this,listener,d.getHours(),d.getMinutes(),false);
+
+                        dialog1.show();
+
+                    }
+                });
+                dialog.show();
+
+
+
+        }
        else if (id == R.id.action_check) {
             for (int i = 0; i < mainItemArrayList.size(); i++) {
                 toggleChecked(mainItemArrayList.get(i).getName(), true, mainItemArrayList.get(i).getId());
@@ -381,5 +455,13 @@ Menu m;
         }
         return super.onOptionsItemSelected(item);
     }
+
+   public static void openDrawer(final int p){
+        pos = p;
+       quantity_et.setText(String.valueOf(mainItemArrayList.get(pos).getQuantity()));
+       price_et.setText(String.valueOf(mainItemArrayList.get(pos).getPrice()));
+       item_name_tv.setText(mainItemArrayList.get(pos).getName());
+       slidingLayer2.openLayer(true);
+   }
 
 }

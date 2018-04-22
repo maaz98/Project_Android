@@ -50,6 +50,7 @@ public class Mail extends AsyncTask<Void,Void,Void> {
 
     @Override
     protected void onPreExecute() {
+
         super.onPreExecute();
     }
 
@@ -61,44 +62,52 @@ public class Mail extends AsyncTask<Void,Void,Void> {
     @Override
     protected Void doInBackground(Void... params) {
         //Creating properties
-        Properties props = new Properties();
 
-        //Configuring properties for gmail
-        //If you are not using gmail you may need to change the values
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "465");
+                final Properties props = new Properties();
+               Thread t = new Thread(new Runnable() {
+                   @Override
+                   public void run() {
+                       try {
+                           //Configuring properties for gmail
+                           //If you are not using gmail you may need to change the values
+                           props.put("mail.smtp.host", "smtp.gmail.com");
+                           props.put("mail.smtp.socketFactory.port", "465");
+                           props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                           props.put("mail.smtp.auth", "true");
+                           props.put("mail.smtp.port", "465");
 
-        //Creating a new session
-        session = Session.getDefaultInstance(props,
-                new javax.mail.Authenticator() {
-                    //Authenticating the password
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(EMAIL, PASSWORD);
-                    }
-                });
+                           //Creating a new session
+                           session = Session.getDefaultInstance(props,
+                                   new javax.mail.Authenticator() {
+                                       //Authenticating the password
+                                       protected PasswordAuthentication getPasswordAuthentication() {
+                                           return new PasswordAuthentication(EMAIL, PASSWORD);
+                                       }
+                                   });
 
-        try {
-            //Creating MimeMessage object
-            MimeMessage mm = new MimeMessage(session);
 
-            //Setting sender address
-            mm.setFrom(new InternetAddress(EMAIL));
-            //Adding receiver
-            mm.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-            //Adding subject
-            mm.setSubject(subject);
-            //Adding message
-            mm.setText(message);
+                           //Creating MimeMessage object
+                           MimeMessage mm = new MimeMessage(session);
 
-            //Sending email
-            Transport.send(mm);
+                           //Setting sender address
+                           mm.setFrom(new InternetAddress(EMAIL));
+                           //Adding receiver
+                           mm.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+                           //Adding subject
+                           mm.setSubject(subject);
+                           //Adding message
+                           mm.setText(message);
 
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
+                           //Sending email
+                           Transport.send(mm);
+
+                       } catch (MessagingException e) {
+                           e.printStackTrace();
+                       }
+                   }
+               });
+               t.start();
+
         return null;
     }
 }

@@ -37,6 +37,25 @@
 
     </com.wunderlist.slidinglayer.SlidingLayer>
 
+    <com.wunderlist.slidinglayer.SlidingLayer
+        android:id="@+id/slidingLayer2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:changeStateOnTap="false"
+        android:elevation="10dp"
+        app:stickTo="left">
+
+        <include
+
+            layout="@layout/slider_content3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </include>
+
+
+
+    </com.wunderlist.slidinglayer.SlidingLayer>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

@@ -9,5 +9,6 @@
     <color name="btn_logout_bg">#ff6861</color>
     <color name="gray">#a1aaaf</color>
     <color name="red">#a1aaaf</color>
+    <color name="black">#000000</color>
 
 </resources>

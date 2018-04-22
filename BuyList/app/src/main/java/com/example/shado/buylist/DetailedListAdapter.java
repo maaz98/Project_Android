@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import static com.example.shado.buylist.ListDetail.openDrawer;
 import static com.example.shado.buylist.ListDetail.toggleChecked;
 
 
@@ -33,6 +34,8 @@ public class DetailedListAdapter extends RecyclerView.Adapter<DetailedListAdapte
         TextView name;
         TextView num;
         CheckBox checkBox;
+        TextView price;
+        TextView total;
 
         private MyViewHolder(View itemView) {
             super(itemView);
@@ -40,6 +43,8 @@ public class DetailedListAdapter extends RecyclerView.Adapter<DetailedListAdapte
             this.name = itemView.findViewById(R.id.item_name);
             this.num = itemView .findViewById(R.id.item_num);
             this.checkBox = itemView.findViewById(R.id.checkbox);
+            this.price = itemView.findViewById(R.id.item_price);
+            this.total = itemView.findViewById(R.id.item_total);
 
         }
     }
@@ -71,7 +76,33 @@ public class DetailedListAdapter extends RecyclerView.Adapter<DetailedListAdapte
             toggleChecked(mItems.get(position).getName(),b,mItems.get(position).getId());
         }
     });
+    holder.num.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            addAttatchments(position);
+        }
+    });
+    holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            addAttatchments(position);
+            return false;
+        }
+    });
+    String total = String.valueOf(mItems.get(position).getPrice()*mItems.get(position).getQuantity());
+    if(mItems.get(position).getPrice()==0){
+        holder.price.setVisibility(View.GONE);
+        holder.total.setVisibility(View.GONE);
+    }else{
+    holder.total.setText("Total = $ "+ total);
+    holder.price.setText("$ " +String.valueOf(mItems.get(position).getPrice())+" x ");
+        holder.price.setVisibility(View.VISIBLE);
+        holder.total.setVisibility(View.VISIBLE);
+    }
+    }
 
+    private void addAttatchments(int position) {
+        openDrawer(position);
     }
 
     @Override
