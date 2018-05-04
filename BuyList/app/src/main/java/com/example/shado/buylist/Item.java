@@ -2,6 +2,8 @@ package com.example.shado.buylist;
 
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
+
 import static com.example.shado.buylist.ListDetail.mode;
 
 public class Item implements Comparable {
@@ -12,6 +14,8 @@ public class Item implements Comparable {
     boolean isChecked;
     double price;
     int typeId;
+    String notes;
+   ArrayList<Attachment> attachments = new ArrayList<>();
 
     public Item(String name, int quantity, int id, String listId, boolean isChecked, double price, int typeId) {
         this.name = name;
@@ -88,6 +92,14 @@ public class Item implements Comparable {
         this.typeId = typeId;
     }
 
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
     @Override
     public String toString() {
         return "Item{" +
@@ -98,7 +110,16 @@ public class Item implements Comparable {
                 ", isChecked=" + isChecked +
                 ", price=" + price +
                 ", typeId=" + typeId +
+                ", notes='" + notes + '\'' +
                 '}';
+    }
+
+    public ArrayList<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(ArrayList<Attachment> attachments) {
+        this.attachments = attachments;
     }
 
     @Override

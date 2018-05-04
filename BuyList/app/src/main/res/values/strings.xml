@@ -26,5 +26,6 @@
     <string name="action_settings">Settings</string>
     <string name="key">key</string>
     <string name="buylist">off</string>
+    <string name="title_activity_home">HomeActivity</string>
 
 </resources>

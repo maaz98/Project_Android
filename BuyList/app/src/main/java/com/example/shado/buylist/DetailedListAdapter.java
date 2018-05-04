@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -36,6 +37,8 @@ public class DetailedListAdapter extends RecyclerView.Adapter<DetailedListAdapte
         CheckBox checkBox;
         TextView price;
         TextView total;
+        ImageView attachment_img;
+        TextView attachment_txt;
 
         private MyViewHolder(View itemView) {
             super(itemView);
@@ -45,7 +48,8 @@ public class DetailedListAdapter extends RecyclerView.Adapter<DetailedListAdapte
             this.checkBox = itemView.findViewById(R.id.checkbox);
             this.price = itemView.findViewById(R.id.item_price);
             this.total = itemView.findViewById(R.id.item_total);
-
+            this.attachment_img = itemView.findViewById(R.id.attachment_img);
+            this.attachment_txt = itemView.findViewById(R.id.attachment_txt);
         }
     }
 
@@ -98,6 +102,16 @@ public class DetailedListAdapter extends RecyclerView.Adapter<DetailedListAdapte
     holder.price.setText("$ " +String.valueOf(mItems.get(position).getPrice())+" x ");
         holder.price.setVisibility(View.VISIBLE);
         holder.total.setVisibility(View.VISIBLE);
+    }
+    int attach_size = mItems.get(position).getAttachments().size();
+    if(attach_size!=0){
+        holder.attachment_img.setVisibility(View.VISIBLE);
+        holder.attachment_txt.setText("["+String.valueOf(attach_size)+"]");
+        holder.attachment_txt.setVisibility(View.VISIBLE);
+    }
+    else{
+        holder.attachment_img.setVisibility(View.INVISIBLE);
+        holder.attachment_txt.setVisibility(View.INVISIBLE);
     }
     }
 

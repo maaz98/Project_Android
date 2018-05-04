@@ -77,13 +77,10 @@ public class List {
 
     @Override
     public String toString() {
-        return "List{" +
-                "name='" + name + '\'' +
-                ", totalItems=" + totalItems +
-                ", checkedItems=" + checkedItems +
-                ", id=" + id +
-                ", itemsList=" + itemsList.toString() +
-                '}';
+        return "Name='" + name + '\'' +
+                ", TotalItems=" + totalItems +
+                ", CheckedItems=" + checkedItems +
+                ", ItemsList=" + itemsList.toString();
     }
 
     public int getNotificationId() {

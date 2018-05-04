@@ -10,7 +10,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,11 +24,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.wunderlist.slidinglayer.SlidingLayer;
 
 import java.util.ArrayList;
@@ -68,14 +62,15 @@ public class MainActivity extends AppCompatActivity
         });
         context = getApplicationContext();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+      /*  ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
+        toggle.syncState();*/
+       // drawer.setVisibility(View.GONE);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setVisibility(View.INVISIBLE);
         navigationView.setNavigationItemSelectedListener(this);
-
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mainList = loadData();
         adapter = new Adapter(this,mainList);
 
@@ -112,7 +107,7 @@ public class MainActivity extends AppCompatActivity
                 fab.setVisibility(View.VISIBLE);
             }
         });
-
+/*
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child(getString(R.string.key));
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -128,6 +123,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+        */
     }
 
     public static void saveList(ArrayList<List> mainList) {
@@ -217,6 +213,10 @@ public class MainActivity extends AppCompatActivity
     public static void deleteItem(int position) {
         mainList.remove(position);
         saveList(mainList);
+    }
+
+    public void shareItem(int position) {
+
     }
 
     public static void changeName(final int position, final Context ctx) {
